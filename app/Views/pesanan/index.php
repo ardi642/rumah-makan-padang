@@ -10,7 +10,7 @@ $kolomTabel = [
 <?= $this->section('content') ?>
 
 <div class="container mt-5 p-5 border border-1 rounded" x-data>
-  <h5 class="text-center mb-4">Tabel Pesanan</h5>
+  <h5 class="text-center mb-4">Tabel Pesanan Edit Edit</h5>
   <div class="text-center mb-5">
     <a class="btn btn-success" href="/pesanan/tambah" role="button">
       Tambah Pesanan
