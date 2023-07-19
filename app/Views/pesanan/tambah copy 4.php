@@ -1,0 +1,441 @@
+<?= $this->extend('template') ?>
+
+<?= $this->section('content') ?>
+
+<div class="container mt-4 text-center">
+  <a class="btn btn-primary" href="/karyawan" role="button">Kembali</a>
+</div>
+<form method="post" class="container mt-4 p-5 border border-1 rounded" id="form" x-data>
+  <div x-init="$watch('$store.form.pesanans', sinkronSelect)"></div>
+  <div x-init="$watch('$store.form.pesanans', sinkronRincianPembayaran)"></div>
+  <h5 class="text-center mb-5">Form Tambah Pesanan</h5>
+  <template x-for="(pesanan, index) in $store.form.pesanans">
+    <div class="mb-3">
+      <div class="row border border-1 rounded py-4 px-3">
+        <p class="mb-0" x-text="`pesanan ke ${index + 1}`"></p>
+        <div class="col-12 col-md my-2">
+          <select class="select-pesanan form-control" x-init="initSelect2" :data-index="index">
+            <option value=""></option>
+          </select>
+          <template x-if="$store.validasi.validasiPesanans?.[index]?.id_menu != null">
+            <div class="alert alert-danger mt-2 p-1" x-text="$store.validasi.validasiPesanans?.[index]?.id_menu">
+            </div>
+          </template>
+        </div>
+        <div class="col-12 col-md my-2">
+          <input type="number" class="form-control" placeholder="jumlah pesanan" x-model="pesanan.jumlah" @keyup="resetValidasiJumlah">
+          <template x-if="$store.validasi.validasiPesanans?.[index]?.jumlah != null">
+            <div class="alert alert-danger mt-2 p-1" x-text="$store.validasi.validasiPesanans?.[index]?.jumlah">
+            </div>
+          </template>
+        </div>
+        <div class="col-12 col-md my-2" x-text="setSubTotal"></div>
+        <div class="col-12 col-md-auto my-2">
+          <button type="button" class="btn btn-danger" @click="hapusPesanan">Hapus Pesanan</button>
+        </div>
+      </div>
+    </div>
+  </template>
+  <div class="mb-3">
+    <button type="button" class="btn btn-success" @click="tambahPesanan">Tambah Pesanan</button>
+  </div>
+  <!-- <div class="mb-3 row">
+    <label class="col-12 col-md-2 col-form-label  ms-md-auto">Uang Pelanggan</label>
+    <div class="col-12 col-md-2">
+      <input type="number" class="form-control" x-model="$store.pembayaran.uang_pelanggan" @keyup="sinkronRincianPembayaran">
+      <template x-if="$store.validasi.validasiPembayaran?.uang_pelanggan != null">
+        <div class="alert alert-danger mt-2 p-1" x-text="$store.validasi.validasiPembayaran?.uang_pelanggan">
+        </div>
+      </template>
+    </div>
+  </div> -->
+  <div class="mb-3">
+    <div class="row mb-3">
+      <div class="col-12 col-md-4 ms-md-auto">
+        <label class="col-form-label text-center">Uang Pelanggan</label>
+        <input type="number" class="form-control" x-model="$store.pembayaran.uang_pelanggan" @keyup="sinkronRincianPembayaran" placeholder="masukkan Uang Pelanggan">
+        <template x-if="$store.validasi.validasiPembayaran?.uang_pelanggan != null">
+          <div class="alert alert-danger mt-2 p-1" x-text="$store.validasi.validasiPembayaran?.uang_pelanggan">
+          </div>
+        </template>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 col-md-2 ms-md-auto">Total Bayar</div>
+      <div class="col-6 col-md-2">
+        Rp. <span x-text="$store.pembayaran.total_bayar || 0"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 col-md-2 ms-md-auto">Uang Pelanggan</div>
+      <div class="col-6 col-md-2">
+        Rp. <span x-text="$store.pembayaran.uang_pelanggan || 0"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 col-md-2 ms-md-auto">Uang Kembalian</div>
+      <div class="col-6 col-md-2">
+        Rp. <span x-text="$store.pembayaran.uang_kembalian || 0"></span>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="mb-3">
+    Uang Pelanggan : Rp. <span x-text="$store.pembayaran.uang_pelanggan || 0"></span><br>
+    Total Bayar : Rp. <span x-text="$store.pembayaran.total_bayar"></span><br>
+    <template x-if="$store.pembayaran.uang_kembalian < 0">
+      <div>
+        Kekurangan Bayar : Rp. <span x-text="$store.pembayaran.uang_kembalian"></span><br>
+      </div>
+    </template>
+    <template x-if="$store.pembayaran.uang_kembalian >= 0">
+      <div>
+        Uang Kembalian : Rp. <span x-text="$store.pembayaran.uang_kembalian"></span><br>
+      </div>
+    </template>
+  </div> -->
+  <div class="d-grid gap-2">
+    <template x-if="$store.state.loading">
+      <button class="btn btn-primary" type="submit" disabled>
+        <span class="spinner-border spinner-border-sm"></span>
+        <span class="visually-hidden">Loading...</span>
+      </button>
+      <button class="btn btn-primary" type="reset" @click="handleReset">Reset</button>
+    </template>
+    <template x-if="!$store.state.loading">
+      <button class="btn btn-primary" type="submit" @click="handleSubmit">Proses Pesanan</button>
+    </template>
+    <button class="btn btn-primary" type="reset" @click="handleReset">Reset</button>
+  </div>
+</form>
+
+<div class="container mt-5 p-5 border border-1 rounded" x-data x-show="$store.pesananMasuk.id_pesanan != null">
+  <h4 class="text-center mb-4">Rincian Pesanan Masuk</h4>
+  <table class="table table-hover table-bordered">
+    <thead class="text-center">
+      <tr>
+        <td>No</td>
+        <td>Menu</td>
+        <td>harga</td>
+        <td>jumlah</td>
+        <td>sub total Bayar</td>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      <template x-for="(pesanan, index) in $store.pesananMasuk.pesanans">
+        <tr>
+          <td><span x-text="index + 1"></span></td>
+          <td><span x-text="pesanan.nama_menu"></span></td>
+          <td>Rp. <span x-text="pesanan.harga_tertentu"></span></td>
+          <td><span x-text="pesanan.jumlah"></span></td>
+          <td>Rp. <span x-text="pesanan.harga_tertentu * pesanan.jumlah"></span></td>
+        </tr>
+      </template>
+    </tbody>
+  </table>
+  <div class="row mt-4">
+    <div class="col-6 col-md-2 ms-md-auto">Total Bayar</div>
+    <div class="col-6 col-md-2">
+      Rp. <span x-text="$store.pesananMasuk.total_bayar"></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 col-md-2 ms-md-auto">Uang Pelanggan</div>
+    <div class="col-6 col-md-2">
+      Rp. <span x-text="$store.pesananMasuk.uang_pelanggan"></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 col-md-2 ms-md-auto">Uang Kembalian</div>
+    <div class="col-6 col-md-2">
+      Rp. <span x-text="$store.pesananMasuk.uang_kembalian"></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 col-md-2 ms-md-auto">Waktu Pesanan</div>
+    <div class="col-6 col-md-2">
+      <span x-text="$store.pesananMasuk.waktu"></span>
+    </div>
+  </div>
+  <?= $this->endSection() ?>
+
+
+  <?= $this->section('script') ?>
+  <script>
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+    document.addEventListener('alpine:init', () => {
+      Alpine.store('form', {
+        pesanans: [factoryPesanan()]
+      })
+
+      Alpine.store('state', {
+        status: null,
+        loading: false
+      })
+
+      Alpine.store('pembayaran', factoryPembayaran())
+
+      Alpine.store('validasi', {
+        validasiPesanans: [],
+        validasiPembayaran: []
+      })
+
+      Alpine.store('pesananMasuk', {});
+    })
+
+    function removeObjectProperties(obj) {
+      Object.keys(obj).forEach(key => {
+        delete obj[key];
+      });
+      return obj;
+    }
+
+    function setTotalBayar() {
+      const pesanans = Alpine.store('form').pesanans;
+      const storePembayaran = Alpine.store('pembayaran');
+      let total_bayar = 0;
+      let harga, jumlahPesanan;
+      pesanans.forEach(pesanan => {
+        harga = parseInt(pesanan.harga_tertentu) || 0;
+        jumlahPesanan = parseInt(pesanan.jumlah) || 0;
+        total_bayar += (harga * jumlahPesanan);
+      });
+      storePembayaran.total_bayar = total_bayar;
+    }
+
+    function setUangKembalian() {
+      const storePembayaran = Alpine.store('pembayaran');
+      let {
+        total_bayar,
+        uang_pelanggan
+      } = storePembayaran;
+      storePembayaran.uang_kembalian = uang_pelanggan - total_bayar;
+    }
+
+    function sinkronRincianPembayaran() {
+      const validasiPembayaran = Alpine.store('validasi').validasiPembayaran;
+      if (validasiPembayaran?.uang_pelanggan != null)
+        delete validasiPembayaran.uang_pelanggan;
+      setTotalBayar();
+      setUangKembalian();
+    }
+
+    function factoryPesanan() {
+      return {
+        id_menu: null,
+        nama_menu: null,
+        harga_tertentu: null,
+        jumlah: 1
+      }
+    }
+
+    function factoryPembayaran() {
+      return {
+        uang_pelanggan: null,
+        total_bayar: 0,
+        uang_kembalian: 0,
+      }
+    }
+
+    $(document).on('change', '.select-pesanan', function(e) {
+
+      const storeForm = Alpine.store('form');
+      const storeValidasi = Alpine.store('validasi');
+      const data = $(this).select2('data')[0];
+      const index = $(this).data('index');
+
+      const validasiPesanans = storeValidasi.validasiPesanans;
+      if (validasiPesanans[index]?.id_menu != null)
+        delete validasiPesanans[index]?.id_menu;
+
+      if (data == null) {
+        storeForm.pesanans[index] = factoryPesanan();
+        return;
+      }
+      storeForm.pesanans[index] = {
+        ...storeForm.pesanans[index],
+        id_menu: data.id,
+        nama_menu: data.nama_menu,
+        harga_tertentu: data.harga
+      }
+    })
+
+    function resetValidasiJumlah(event) {
+      let index = this.index;
+      const validasiPesanans = Alpine.store('validasi').validasiPesanans;
+      if (validasiPesanans[index]?.jumlah != null)
+        delete validasiPesanans[index]?.jumlah;
+    }
+
+    async function tambahPesanan() {
+      const storeForm = Alpine.store('form');
+      await storeForm.pesanans.push(factoryPesanan());
+    }
+
+    async function sinkronSelect() {
+      const storeForm = Alpine.store('form');
+      document.querySelectorAll(".select-pesanan").forEach(function(element) {
+        let index = $(element).data('index');
+        if (storeForm.pesanans[index].id_menu == null) {
+          element.innerHTML = `<option value=""></option>`
+          return;
+        }
+
+        let namaMenu = storeForm.pesanans[index].nama_menu;
+        let idMenu = storeForm.pesanans[index].id_menu;
+        let option = new Option(namaMenu, idMenu, true, true);
+        element.innerHTML = ``;
+        element.appendChild(option);
+      });
+    }
+
+    async function hapusPesanan(event) {
+      const storeForm = Alpine.store('form');
+      let index = this.index;
+      if (storeForm.pesanans.length == 1) {
+        storeForm.pesanans[0] = factoryPesanan();
+        return;
+      }
+      await storeForm.pesanans.splice(index, 1);
+    }
+
+    function setSubTotal() {
+      let index = this.index;
+      const pesanans = Alpine.store('form').pesanans;
+      if (pesanans[index] == null) return;
+
+      let id_menu = parseInt(pesanans[index].id_menu);
+      let harga_tertentu = parseInt(pesanans[index].harga_tertentu);
+      let jumlah = parseInt(pesanans[index].jumlah);
+
+      if (isNaN(id_menu))
+        return 'menu belum dipilih';
+
+      if (isNaN(jumlah) || jumlah == 0)
+        return 'Rp. 0';
+
+      if (jumlah < 0)
+        return 'jumlah pesanan menu minimal 1';
+
+      return `Rp. ${harga_tertentu * jumlah}`;
+    }
+
+    function initSelect2() {
+      const select = $(this.$el);
+      select.select2({
+        allowClear: true,
+        placeholder: 'pilih menu',
+        ajax: {
+          url: "/api/menu/findByFilters",
+          data: function(params) {
+            return {
+              'nama_menu': params.term
+            }
+          },
+          dataType: 'json',
+          processResults: function(data) {
+            // Transforms the top-level key of the response object from 'items' to 'results'
+            const newData = data.data.map(function(item, index) {
+              return {
+                id: item.id_menu,
+                text: item.nama_menu,
+                ...item
+              }
+            })
+            return {
+              results: newData
+            };
+          }
+        }
+      });
+
+    }
+
+    async function setNotification() {
+      const storeState = Alpine.store('state');
+      const status = storeState.status;
+      if (status == 'sukses') {
+        Toast.fire({
+          icon: 'success',
+          title: 'data pesanan berhasil ditambahkan'
+        })
+      }
+      if (status == 'gagal') {
+        Toast.fire({
+          icon: 'error',
+          title: 'data pesanan gagal ditambahkan'
+        })
+      }
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const storeForm = Alpine.store('form');
+      const storeState = Alpine.store('state');
+      const storePembayaran = Alpine.store('pembayaran');
+      const storeValidasi = Alpine.store('validasi');
+      const storePesananMasuk = Alpine.store('pesananMasuk');
+      const data = {
+        pesanans: storeForm.pesanans,
+        pembayaran: storePembayaran
+
+      }
+      storeState.loading = true;
+      try {
+        const response = await axios.post('/api/pesanan', data);
+        Object.assign(storePesananMasuk, {
+          id_pesanan: response.data.id_pesanan,
+          waktu: response.data.waktu,
+          pesanans: storeForm.pesanans,
+          ...storePembayaran,
+        });
+        setTimeout(function() {
+          document.getElementsByClassName('table')[0]
+            .scrollIntoView({
+              behavior: "smooth"
+            })
+        }, 100);
+        storeState.status = 'sukses';
+        removeObjectProperties(storeValidasi);
+        setNotification();
+        handleReset();
+      } catch (error) {
+        console.log(error);
+        const statusCode = error.response?.status;
+        const data = error.response?.data;
+        if (statusCode == 400) {
+          Object.assign(storeValidasi, data.error);
+          storeValidasi.validasiPesanans = data.validasiPesanans;
+          storeValidasi.validasiPembayaran = data.validasiPembayaran;
+        } else if (statusCode == 500) {
+          storeState.status = 'gagal';
+        }
+      } finally {
+        storeState.loading = false;
+      }
+    }
+
+    function handleReset(e) {
+      if (e != null) e.preventDefault();
+      const storeForm = Alpine.store('form');
+      const storeValidasi = Alpine.store('validasi');
+      const storePembayaran = Alpine.store('pembayaran');
+      const storeState = Alpine.store('state');
+      storeForm.pesanans = [factoryPesanan()];
+      Object.assign(storePembayaran, factoryPembayaran());
+      storeValidasi.validasiPesanans = [];
+      storeValidasi.validasiPembayaran = [];
+
+    }
+  </script>
+  <?= $this->endSection() ?>

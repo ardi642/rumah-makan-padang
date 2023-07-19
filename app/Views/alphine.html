@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body>
+  <ul x-data>
+    <template x-for="(color, index) in $store.tes.colors">
+        <li>
+            <span x-text="index + ': '"></span>
+            <span x-text="color"></span>
+        </li>
+    </template>
+</ul>
+  <script>
+
+    function tekan() {
+      console.log(this.index);
+    }
+
+    document.addEventListener('alpine:init', () => {
+      Alpine.store('tes', {
+        colors: ['red', 'blue', 'green']
+      })
+    })
+  </script>
+</body>
+
+</html>
