@@ -26,6 +26,7 @@ class App extends BaseConfig
                 'LabelPengeluaran' => 'Master Label Pengeluaran'
             ]
         ],
+        'laporan'=>'Master Laporan'
     ];
     /**
      * --------------------------------------------------------------------------
