@@ -74,9 +74,9 @@
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
       datasets: [{
-        label: '# of Votes',
+        label: 'Pembelian harian',
         data: [12, 19, 3, 5, 2, 3],
         borderWidth: 1
       }]

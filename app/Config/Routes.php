@@ -65,6 +65,8 @@ $routes->delete('api/pengeluaran/(:any)', 'API\pengeluaran::delete/$1');
 $routes->put('api/pengeluaran/(:any)', 'API\pengeluaran::update/$1');
 
 $routes->get('api/laporan/selectDatatable', 'API\Laporan::selectDatatable');
+
+$routes->get('api/home/transaction', 'API\Home::getTransaction');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
