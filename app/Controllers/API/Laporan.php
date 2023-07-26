@@ -125,6 +125,7 @@ class Laporan extends BaseController
 
     $recordsFiltered = count($result);
     $resData = [
+      'draw' => $this->request->getVar('draw'),
       'data' => $result,
       'recordsTotal' => $recordsTotal,
       'recordsFiltered' => $recordsFiltered
