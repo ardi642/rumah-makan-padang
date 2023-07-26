@@ -68,7 +68,10 @@
         data: "nominal",
       },
       {
-        data: "waktu"
+        data: "waktu",
+        render: function(data, type, row, meta) {
+          return dayjs(data).format("DD MMMM YYYY");
+        }
       },
       {
         data: "keterangan"
