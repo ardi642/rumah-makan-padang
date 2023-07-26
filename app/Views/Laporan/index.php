@@ -7,10 +7,10 @@
 <p class="fs-3">Filter Laporan</p>
   <div x-data>
     <div class="row">
-      <div class="col-4">
-        <div class="row">
-          <div class="col-4">tipe Waktu</div>
-          <div class="col-8">
+      <div class="col-12 col-md-4">
+        <div class="row mb-2 mb-md-0">
+          <div class="col-12 col-md-4">tipe Waktu</div>
+          <div class="col-12 col-md-8">
           <select class="form-select" x-model="$store.state.tipeWaktu" id="tipeWaktu" @change="handleChangeTipeWaktu">
             <option value="date">hari</option>
             <option value="month">bulan</option>
@@ -18,20 +18,20 @@
           </div>
         </div>
       </div>
-      <div class="col-4">
-        <div class="row">
-          <div class="col-4">Dari Waktu</div>
-          <div class="col-8">
+      <div class="col-12 col-md-4">
+        <div class="row mb-2 mb-md-0">
+          <div class="col-12 col-md-4">Dari Waktu</div>
+          <div class="col-12 col-md-8">
             <div class="mb-2 mb-md-0">
               <input :type="$store.state.tipeWaktu" class="form-control" id="tanggalDari" x-model="$store.state.tanggalDari">            
             </div>
           </div>
         </div>
       </div>
-      <div class="col-4">
-        <div class="row">
-          <div class="col-4">Sampai Waktu</div>
-          <div class="col-8">
+      <div class="col-12 col-md-4">
+        <div class="row mb-2 mb-md-0">
+          <div class="col-12 col-md-4">Sampai Waktu</div>
+          <div class="col-12 col-md-8">
             <div class=" mb-2 mb-md-0">
               <input :type="$store.state.tipeWaktu" class="form-control" id="tanggalSampai" x-model="$store.state.tanggalSampai">
             </div>
@@ -40,33 +40,33 @@
       </div>
       
     </div>
-    <div class="row mt-5">
-      <div class="col-4">
-        <div class="row">
-          <div class="col-4">label pesanan</div> 
-          <div class="col-8">
+    <div class="row mt-md-5">
+      <div class="col-12 col-md-4">
+        <div class="row mb-2 mb-md-0">
+          <div class="col-12 col-md-4">label pesanan</div> 
+          <div class="col-12 col-md-8">
             <select class="form-select" id="id-label-pesanan" x-model="$store.state.idLabelPesanan">
             </select>
           </div>
         </div>
       </div>
 
-      <div class="col-4">
-        <div class="row">
-          <div class="col-4">Label pengeluaran</div>
-          <div class="col-8 ">
+      <div class="col-12 col-md-4">
+        <div class="row mb-4 mb-md-0">
+          <div class="col-12 col-md-4">Label pengeluaran</div>
+          <div class="col-12 col-md-8 ">
             <select class="form-select" id="id-label-pengeluaran" x-model="$store.state.idLabelPengeluaran">
             </select>
           </div>
         </div>
       </div>
 
-      <div class="col-4 d-grid gap-2">
+      <div class="col-12 col-md-4 d-grid gap-2">
         <div class="row">
-          <div class="col-6 d-grid">
+          <div class="col-12 col-md-6 d-grid mb-2 mb-md-0">
             <button class="btn btn-primary" id="btn-tampilkan" @click="handleReset">Reset</button>
           </div>
-          <div class="col-6 d-grid">
+          <div class="col-12 col-md-6 d-grid">
             <button class="btn btn-primary" id="btn-tampilkan" @click="handleFilter">Filter</button>
           </div>
         </div>
