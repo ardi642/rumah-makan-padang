@@ -5,7 +5,7 @@
 <div class="container mt-5 p-5 border border-1 rounded">
   <h5 class="text-center mb-4">Tabel Pengeluaran</h5>
   <div class="text-center mb-5">
-    <a class="btn btn-success" href="/menu/tambah" role="button">
+    <a class="btn btn-success" href="/pengeluaran/tambah" role="button">
       Tambah Pengeluaran
     </a>
   </div>
