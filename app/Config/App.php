@@ -9,24 +9,48 @@ class App extends BaseConfig
 {
 
     public array $menus = [
-        'home' => 'Home',
-        'menu' => 'Master Menu',
-        'karyawan' => 'Master Karyawan',
+        'home' => [
+            'url'=> '/home',
+            'label'=> 'Home'
+        ],
+        'menu' => [
+            'url' => '/menu',
+            'label' => 'Master Menu'
+        ],
+        'karyawan' => [
+            'url' => '/karyawan',
+            'label' => 'Master Karyawan'
+        ],
         'pesanan' => [
-            'labelMenu' => 'Pesanan',
+            'label' => 'Pesanan',
             'menus' => [
-                'pesanan' => 'Master Pesanan',
-                'LabelPesanan' => 'Master Label Pesanan'
+                'pesanan' => [
+                    'url' => '/pesanan',
+                    'label' => 'Master Pesanan'
+                ],
+                'LabelPesanan' => [
+                    'url' => '/LabelPesanan',
+                    'label' => 'Master Label Pesanan'
+                ]
             ]
         ],
         'pengeluaran' => [
-            'labelMenu' => 'Pengeluaran',
+            'label' => 'Pengeluaran',
             'menus' => [
-                'pengeluaran' => 'Master pengeluaran',
-                'LabelPengeluaran' => 'Master Label Pengeluaran'
+                'pengeluaran' => [
+                    'url' => '/pengeluaran',
+                    'label' => 'Master pengeluaran'
+                ],
+                'LabelPengeluaran' => [
+                    'url' => '/LabelPengeluaran',
+                    'label' => 'Master Label Pengeluaran'
+                ]
             ]
         ],
-        'laporan'=>'Master Laporan'
+        'laporan' => [
+            'url' => '/laporan',
+            'label' => 'Master Laporan'
+        ]
     ];
     /**
      * --------------------------------------------------------------------------
