@@ -152,7 +152,7 @@ $kolomTabel = [
       {
         data: "waktu",
         render: function(data, type, row, meta) {
-          return dayjs(data).format("DD MMMM YYYY");
+          return dayjs(data).format("DD MMMM YYYY - HH:mm");
         }
       },
       {
