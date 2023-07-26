@@ -80,30 +80,32 @@
 <!-- Container ke dua untuk menampilkan data -->
 <div class="container mt-5 p-5 border border-1 rounded" x-data>
   <p class="fs-3">Laporan pemasukan dan pengeluaran</p>
-  <div>
-    <div class="row mb-2">
-      <div class="col-6 col-md-2">Dari Waktu</div>
-      <div class="col-6 col-md-2"><span x-text="aturWaktuDari"></span></div>
-      <div class="col-6 col-md-2">Sampai Waktu</div>
-      <div class="col-6 col-md-2"><span x-text="aturWaktuSampai"></span></div>
+  <template x-if="$store.informasi.show">
+    <div>
+      <div class="row mb-2">
+        <div class="col-6 col-md-2">Dari Waktu</div>
+        <div class="col-6 col-md-2"><span x-text="$store.informasi.tanggalDari"></span></div>
+        <div class="col-6 col-md-2">Sampai Waktu</div>
+        <div class="col-6 col-md-2"><span x-text="$store.informasi.tanggalSampai"></span></div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-6 col-md-2">Label Pesanan</div>
+        <div class="col-6 col-md-2"><span x-text="$store.informasi.labelPesanan"></span></div>
+        <div class="col-6 col-md-2">Label Pengeluaran</div>
+        <div class="col-6 col-md-2"><span x-text="$store.informasi.labelPengeluaran"></span></div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-6 col-md-2">Total Uang Masuk</div>
+        <div class="col-6 col-md-2">Rp. <span x-text="$store.informasi.totalUangMasuk"></span></div>
+        <div class="col-6 col-md-2">Total Pengeluaran</div>
+        <div class="col-6 col-md-2">Rp. <span x-text="$store.informasi.totalPengeluaran"></span></div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-6 col-md-2">Total Pendapatan</div>
+        <div class="col-6 col-md-2">Rp. <span x-text="$store.informasi.totalPendapatan"></span></div>
+      </div>
     </div>
-    <div class="row mb-2">
-      <div class="col-6 col-md-2">Label Pesanan</div>
-      <div class="col-6 col-md-2">Offline</div>
-      <div class="col-6 col-md-2">Label Pengeluaran</div>
-      <div class="col-6 col-md-2">listrik</div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-6 col-md-2">Total Uang Masuk</div>
-      <div class="col-6 col-md-2">Rp. 30.000</div>
-      <div class="col-6 col-md-2">Total Pengeluaran</div>
-      <div class="col-6 col-md-2">Rp. 50.000</div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-6 col-md-2">Total Pendapatan</div>
-      <div class="col-6 col-md-2">Rp. 30.000</div>
-    </div>
-  </div>
+  </template>
   <div class="table-responsive">
     <table id="tabel" class="table table-striped  dataTable">
       <thead>
@@ -200,6 +202,17 @@
       tanggalSampai: null
     })
 
+    Alpine.store('informasi', {
+      show: false,
+      tanggalDari: null,
+      tanggalSampai: null,
+      labelPesanan: null,
+      labelPengeluaran: null,
+      TotalUangMasuk: null,
+      TotalPendapatan: null,
+      TotalPengeluaran: null
+    })
+
     handleChangeTipeWaktu();
   })
 
@@ -273,6 +286,46 @@
   });
 
   let tabel = $('#tabel').DataTable({
+    drawCallback: function( settings ) {
+      const storeState = Alpine.store('state');
+      const storeInformasi = Alpine.store('informasi');
+
+      if (!storeInformasi.show) storeInformasi.show = true;
+
+      const rows = tabel.rows().data();
+      const labelPesanan = $("#id-label-pesanan").select2('data')?.[0]?.text ?? 'semua';
+      const labelPengeluaran = $("#id-label-pengeluaran").select2('data')?.[0]?.text ?? 'semua';
+
+      storeInformasi.labelPesanan = labelPesanan;
+      storeInformasi.labelPengeluaran = labelPengeluaran
+
+      if (storeState.tanggalDari == "")
+        storeInformasi.tanggalDari = "-";
+      else if (storeState.tipeWaktu == "date")
+        storeInformasi.tanggalDari = dayjs(storeState.tanggalDari).format("DD MMMM YYYY")
+      else if (storeState.tipeWaktu == "month")
+        storeInformasi.tanggalDari = dayjs(storeState.tanggalDari).format("MMMM YYYY")
+
+      if (storeState.tanggalSampai == "")
+        storeInformasi.tanggalSampai = "-";
+      else if (storeState.tipeWaktu == "date")
+        storeInformasi.tanggalSampai = dayjs(storeState.tanggalSampai).format("DD MMMM YYYY")
+      else if (storeState.tipeWaktu == "month")
+        storeInformasi.tanggalSampai = dayjs(storeState.tanggalSampai).format("MMMM YYYY")
+
+      storeInformasi.totalUangMasuk = rows.reduce(function(total, row) {
+        return total + parseInt(row.pemasukan);
+      }, 0);
+
+      storeInformasi.totalPengeluaran = rows.reduce(function(total, row) {
+        return total + parseInt(row.pengeluaran);
+      }, 0); 
+
+      storeInformasi.totalPendapatan = storeInformasi.totalUangMasuk - storeInformasi.totalPengeluaran;
+
+      
+
+    },
     ajax: {
       url: "<?= base_url('/api/laporan/selectDatatable') ?>",
       data: function(d) {
