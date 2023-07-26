@@ -11,7 +11,7 @@
         <div class="row">
           <div class="col-4">tipe Waktu</div>
           <div class="col-8">
-          <select class="form-select" x-model="$store.state.tipeWaktu" id="tipeWaktu">
+          <select class="form-select" x-model="$store.state.tipeWaktu" id="tipeWaktu" @change="handleChangeTipeWaktu">
             <option value="date">hari</option>
             <option value="month">bulan</option>
           </select>
@@ -23,7 +23,7 @@
           <div class="col-4">Dari Waktu</div>
           <div class="col-8">
             <div class="mb-2 mb-md-0">
-              <input :type="$store.state.tipeWaktu" class="form-control" id="tanggalDari" :disabled="$store.state.tipeWaktu == ''" x-model="$store.state.tanggalDari">            
+              <input :type="$store.state.tipeWaktu" class="form-control" id="tanggalDari" x-model="$store.state.tanggalDari">            
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@
           <div class="col-4">Sampai Waktu</div>
           <div class="col-8">
             <div class=" mb-2 mb-md-0">
-              <input :type="$store.state.tipeWaktu" class="form-control" id="tanggalSampai" :disabled="$store.state.tipeWaktu == ''" x-model="$store.state.tanggalSampai">
+              <input :type="$store.state.tipeWaktu" class="form-control" id="tanggalSampai" x-model="$store.state.tanggalSampai">
             </div>
           </div>
         </div>
@@ -137,16 +137,35 @@
 <script>
 
   function aturWaktuLaporanDefault() {
+    // const storeState = Alpine.store('state');
+
+    // const tanggalSekarang = dayjs()
+    // const tanggalAwal = tanggalSekarang.startOf("month");
+
+    // storeState.tipeWaktu = 'date';
+    // storeState.tanggalDari = tanggalAwal.format("YYYY-MM-DD");
+    // storeState.tanggalSampai = tanggalSekarang.format("YYYY-MM-DD");
+  }
+
+  function handleChangeTipeWaktu() {
     const storeState = Alpine.store('state');
+    let tanggalSekarang = dayjs()
+    let tanggalAwal;
+    if (storeState.tipeWaktu == 'date') {
+      tanggalAwal = tanggalSekarang.startOf("month");
+      storeState.tanggalDari = null;
+      storeState.tanggalSampai = null;
+      storeState.tanggalDari = tanggalAwal.format("YYYY-MM-DD");
+      storeState.tanggalSampai = tanggalSekarang.format("YYYY-MM-DD");
+    }
 
-    const tanggalSekarang = dayjs()
-    const tanggalAwal = tanggalSekarang.startOf("month");
-
-    storeState.tipeWaktu = 'date';
-    storeState.tanggalDari = null;
-    storeState.tanggalDari = tanggalAwal.format("YYYY-MM-DD");
-    storeState.tanggalSampai = null;
-    storeState.tanggalSampai = tanggalSekarang.format("YYYY-MM-DD");
+    else if (storeState.tipeWaktu == 'month') {
+      tanggalAwal = tanggalSekarang.startOf('year');
+      storeState.tanggalDari = null;
+      storeState.tanggalSampai = null;
+      storeState.tanggalDari = tanggalAwal.format("YYYY-MM");
+      storeState.tanggalSampai = tanggalSekarang.format("YYYY-MM");
+    }
   }
 
   function aturWaktuDari() {
@@ -177,9 +196,11 @@
   document.addEventListener('alpine:init', () => {
     Alpine.store('state', {
       tipeWaktu: 'date',
+      tanggalDari: null,
+      tanggalSampai: null
     })
 
-    aturWaktuLaporanDefault();
+    handleChangeTipeWaktu();
   })
 
   function handleFilter() {
@@ -187,9 +208,11 @@
   }
 
   function handleReset() {
+    const storeState = Alpine.store('state');
     $("#id-label-pesanan").val(null).trigger('change');
     $("#id-label-pengeluaran").val(null).trigger('change'); 
-    aturWaktuLaporanDefault();
+    storeState.tipeWaktu = 'date';
+    handleChangeTipeWaktu();
   }
   
   const elIdLabelPesanan = $("#id-label-pesanan");
