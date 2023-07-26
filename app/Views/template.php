@@ -61,7 +61,7 @@
   <div class="container mt-4">
     <div class="row">
       <div class="col-12">
-        <p class="text-center">Created with <span>❤️</span> By Ardiansyah Latif</p>
+        <p class="text-center">Created with <span>❤️</span> By SnowFall Team</p>
       </div>
     </div>
   </div>
