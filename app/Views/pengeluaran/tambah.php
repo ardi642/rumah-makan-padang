@@ -125,14 +125,14 @@
       document.getElementById('form').reset();
       Toast.fire({
         icon: 'success',
-        title: 'data menu makanan berhasil ditambahkan'
+        title: 'data pengeluaran berhasil ditambahkan'
       })
     }
 
     if (status == 'gagal') {
       Toast.fire({
         icon: 'error',
-        title: 'data menu makanan gagal ditambahkan'
+        title: 'data pengeluaran gagal ditambahkan'
       })
     }
     storeState.status = null;

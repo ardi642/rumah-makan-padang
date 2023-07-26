@@ -5,7 +5,7 @@
 <div class="container mt-5 p-5 border border-1 rounded">
   <h5 class="text-center mb-4">Tabel Pengeluaran</h5>
   <div class="text-center mb-5">
-    <a class="btn btn-success" href="/menu/tambah" role="button">
+    <a class="btn btn-success" href="/pengeluaran/tambah" role="button">
       Tambah Pengeluaran
     </a>
   </div>
@@ -68,7 +68,10 @@
         data: "nominal",
       },
       {
-        data: "waktu"
+        data: "waktu",
+        render: function(data, type, row, meta) {
+          return dayjs(data).format("DD MMMM YYYY - HH:mm");
+        }
       },
       {
         data: "keterangan"
@@ -78,7 +81,7 @@
         orderable: false,
         render: function(data, type, row, meta) {
           return `
-            <a href="menu/edit/${row.id_menu}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="pengeluaran/edit/${row.id_pengeluaran}" class="btn btn-sm btn-warning">Edit</a>
             <button class="btn btn-sm btn-danger tombol-hapus" data-row-index="${meta.row}">
             Delete
             </button>

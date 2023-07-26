@@ -150,7 +150,10 @@ $kolomTabel = [
         data: "uang_kembalian"
       },
       {
-        data: "waktu"
+        data: "waktu",
+        render: function(data, type, row, meta) {
+          return dayjs(data).format("DD MMMM YYYY - HH:mm");
+        }
       },
       {
         data: null,

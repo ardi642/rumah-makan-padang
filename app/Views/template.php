@@ -40,19 +40,19 @@
       </button>
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
-          <?php foreach ($menus as $menu => $labelMenu) : ?>
-            <?php if (!is_array($labelMenu)) : ?>
+          <?php foreach ($menus as $namaMenu => $menu) : ?>
+            <?php if (!isset($menu['menus'])) : ?>
               <li class="nav-item">
-                <a class="nav-link <?= ($menuAktif == $menu) ? "active" : "" ?>" href="<?= base_url($menu) ?>">
-                  <?= $labelMenu ?>
+                <a class="nav-link <?= ($menuAktif == $namaMenu) ? "active" : "" ?>" href="<?= base_url($menu['url']) ?>">
+                  <?= $menu['label'] ?>
                 </a>
               </li>
             <?php else : ?>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle <?= ($menuAktif == $menu) ? "active" : "" ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $labelMenu['labelMenu'] ?></a>
+                <a class="nav-link dropdown-toggle <?= ($menuAktif == $namaMenu) ? "active" : "" ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $menu['label'] ?></a>
                 <ul class="dropdown-menu">
-                  <?php foreach ($labelMenu['menus'] as $menu => $labelMenu) : ?>
-                    <li><a class="dropdown-item" href="<?= $menu ?>"><?= $labelMenu ?></a></li>
+                  <?php foreach ($menu['menus'] as $menuDropdown) : ?>
+                    <li><a class="dropdown-item" href="<?= $menuDropdown['url'] ?>"><?= $menuDropdown['label'] ?></a></li>
                   <?php endforeach ?>
                 </ul>
               </li>
@@ -68,7 +68,7 @@
   <div class="container mt-4">
     <div class="row">
       <div class="col-12">
-        <p class="text-center">Created with <span>❤️</span> By Ardiansyah Latif</p>
+        <p class="text-center">Created with <span>❤️</span> By SnowFall Team</p>
       </div>
     </div>
   </div>
