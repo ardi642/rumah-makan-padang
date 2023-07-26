@@ -81,7 +81,7 @@
         orderable: false,
         render: function(data, type, row, meta) {
           return `
-            <a href="menu/edit/${row.id_menu}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="pengeluaran/edit/${row.id_pengeluaran}" class="btn btn-sm btn-warning">Edit</a>
             <button class="btn btn-sm btn-danger tombol-hapus" data-row-index="${meta.row}">
             Delete
             </button>
