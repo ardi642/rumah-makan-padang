@@ -21,6 +21,7 @@
   <script src="/select2/select2.min.js"></script>
   <script defer src="/alpinejs/alpinejs@3.x.x_dist_cdn.min.js"></script>
   <script src="/axios/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
 </head>
 
 <body>

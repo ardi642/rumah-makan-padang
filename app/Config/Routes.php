@@ -63,6 +63,8 @@ $routes->put('api/LabelPengeluaran/(:any)', 'API\LabelPengeluaran::update/$1');
 $routes->post('api/pengeluaran', 'API\Pengeluaran::create');
 $routes->delete('api/pengeluaran/(:any)', 'API\pengeluaran::delete/$1');
 $routes->put('api/pengeluaran/(:any)', 'API\pengeluaran::update/$1');
+
+$routes->get('api/laporan/selectDatatable', 'API\Laporan::selectDatatable');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
