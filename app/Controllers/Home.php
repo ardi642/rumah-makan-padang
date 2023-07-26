@@ -6,7 +6,9 @@ class Home extends BaseController
 {
     public function index()
     {
-        return view('welcome_message');
+        $data['menus'] = config('App')->menus;
+        $data['menuAktif'] = 'home';
+        return view('admin_home', $data);
     }
 
     public function coba()
