@@ -18,6 +18,8 @@
         width: 25rem;
         height: 12rem;
       }
+
+
     </style>
     <div class="container">
       <div class="row">
@@ -32,6 +34,7 @@
           <div class="card-deck row justify-content-center">
             <div class="card col-3 shadow  bg-success text-white">
               <div class="card-body">
+              
                 <h5 class="card-title">Pendapatan</h5>
                 <h1>Rp 1,500,000</h1>
               </div>
@@ -46,20 +49,50 @@
               <div class="card-body">
                 <h5 class="card-title">Penegluaran</h5>
                 <h1 class="">RP 1,500,000 </h1>
-                <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
               </div>
             </div>
           </div>
-
-
           
-          
-
-            
   
-  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+  <div class="container mt-5 p-5 border border-1 rounded">
+    <div class="rows"> 
+    <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+    <div>
+  <canvas id="myChart"></canvas>
+</div>
+
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js" integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script><script src="dashboard.js"></script>
-
 
 <?= $this->endSection() ?>
