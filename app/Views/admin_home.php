@@ -18,7 +18,7 @@
     height: 12rem;
   }
 </style>
-    <div class="container">
+        <div class="container">
           <div class="pb-2 mt-3 mb-3">
             <p>Selamat Datang</p>
             <h3>Nama Kamu</h3>
@@ -46,12 +46,13 @@
               </div>
             </div>
           </div>
+        </div>
           
-          <div class="container mt-5 p-5 border border-1 rounded">
+        <div class="container mt-5 p-5 border border-1 rounded">
             <div class="row"> 
               <canvas class="my-4 w-100" id="myChart"></canvas>
             </div>
-          </div>
+        </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -111,6 +112,6 @@
   createChart()
   </script>
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js" integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script><script src="dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js" integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script>
 
 <?= $this->endSection() ?>
