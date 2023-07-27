@@ -27,6 +27,8 @@ class Home extends BaseController
          $builder = $db->query($query);
  
         $results = $builder->getResult();
-        return $this->response->setJSON($results);
+        return $this->response->setJSON([
+            'data' => $results
+        ]);
     }
 }
