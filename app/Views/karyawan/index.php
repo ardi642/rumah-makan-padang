@@ -65,10 +65,6 @@
         name: 'nama_karyawan',
       },
       {
-        data: "username",
-        name: 'username',
-      },
-      {
         data: "email",
         name: 'email'
       },
@@ -104,7 +100,7 @@
     let status;
     let keputusan = await Swal.fire({
       title: 'Apakah Anda yakin?',
-      text: `Anda akan menghapus karyawan dengan username ${rowData.username} ?`,
+      text: `Anda akan menghapus karyawan bernama ${rowData.nama_karyawan} ?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Ya, hapus!',
@@ -126,7 +122,7 @@
         tabel.draw();
         Toast.fire({
           icon: 'success',
-          title: `Karyawan dengan username ${rowData.username} berhasil dihapus`
+          title: `Karyawan bernama ${rowData.nama_karyawan} berhasil dihapus`
         })
 
       }
@@ -134,7 +130,7 @@
       if (status == 'gagal') {
         Toast.fire({
           icon: 'error',
-          title: `Karyawan dengan username ${rowData.username} gagal dihapus`
+          title: `Karyawan bernama ${rowData.nama_karyawan} gagal dihapus`
         })
       }
     }
