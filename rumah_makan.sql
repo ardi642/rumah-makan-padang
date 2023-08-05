@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2023 at 09:53 AM
+-- Generation Time: Aug 05, 2023 at 08:45 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -43,7 +43,11 @@ INSERT INTO `detail_pesanan` (`id_detail_pesanan`, `id_pesanan`, `id_menu`, `har
 (217, 120, 12, 3000, 2),
 (219, 121, 10, 20000, 1),
 (226, 123, 11, 20000, 2),
-(227, 123, 12, 3000, 3);
+(227, 123, 12, 3000, 3),
+(228, 125, 10, 20000, 1),
+(229, 130, 11, 20000, 1),
+(232, 131, 11, 20000, 2),
+(233, 131, 12, 3000, 1);
 
 -- --------------------------------------------------------
 
@@ -53,9 +57,8 @@ INSERT INTO `detail_pesanan` (`id_detail_pesanan`, `id_pesanan`, `id_menu`, `har
 
 CREATE TABLE `karyawan` (
   `id_karyawan` int(11) NOT NULL,
-  `username` varchar(20) NOT NULL,
+  `email` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `email` varchar(50) DEFAULT NULL,
   `nama_karyawan` varchar(50) NOT NULL,
   `level` enum('karyawan','admin') NOT NULL,
   `no_telepon` varchar(16) DEFAULT NULL,
@@ -66,9 +69,10 @@ CREATE TABLE `karyawan` (
 -- Dumping data for table `karyawan`
 --
 
-INSERT INTO `karyawan` (`id_karyawan`, `username`, `password`, `email`, `nama_karyawan`, `level`, `no_telepon`, `alamat`) VALUES
-(4, 'ardi642', 'ardi1234', 'ardiansyahlatif642@gmail.com', 'ardiansyah latif', 'karyawan', '+6285244749346', 'btn batumarupa'),
-(6, 'ardi6420', 'ardi1234', 'ardiansyahlatif6420@gmail.com', 'ardiansyah latif', 'karyawan', '+6285244749346', '');
+INSERT INTO `karyawan` (`id_karyawan`, `email`, `password`, `nama_karyawan`, `level`, `no_telepon`, `alamat`) VALUES
+(4, 'ardiansyahlatif642@gmail.com', '$2y$12$ibOp4VJ6Vr6L1spVOhhBweM8ljNEtExDXu1QlowT7gk0UrUnDgEYi', 'ardiansyah latif', 'admin', '+6285244749346', 'btn batumarupa'),
+(6, 'ardiansyahlatif6420@gmail.com', '$2y$12$oZ6l6VcWRQ6ZIYMFFdbEtumLzgoDLsWAhdbWLf97WUlEHBTy9qlLK', 'ardiansyah latif', 'admin', '+6285244749346', ''),
+(11, 'ardiansyahlatif123@gmail.com', '$2y$12$ibOp4VJ6Vr6L1spVOhhBweM8ljNEtExDXu1QlowT7gk0UrUnDgEYi', 'ardi', 'karyawan', '', '');
 
 -- --------------------------------------------------------
 
@@ -86,6 +90,7 @@ CREATE TABLE `label_pengeluaran` (
 --
 
 INSERT INTO `label_pengeluaran` (`id_label`, `label`) VALUES
+(3, 'air'),
 (2, 'listrik');
 
 -- --------------------------------------------------------
@@ -104,7 +109,6 @@ CREATE TABLE `label_pesanan` (
 --
 
 INSERT INTO `label_pesanan` (`id_label`, `label`) VALUES
-(6, 'a'),
 (4, 'listrik'),
 (2, 'offline'),
 (3, 'online');
@@ -151,7 +155,10 @@ CREATE TABLE `pengeluaran` (
 --
 
 INSERT INTO `pengeluaran` (`id_pengeluaran`, `keterangan`, `nominal`, `waktu`, `id_label`) VALUES
-(1, 'bayar listrik', 20000, '2023-07-03 10:54:41', 2);
+(1, 'bayar listrik', 20000, '2023-07-05 10:54:41', 2),
+(3, 'bayar listrik', 30000, '2023-07-05 22:53:50', 2),
+(4, 'bayar air', 50000, '2023-06-19 00:57:32', 3),
+(5, 'bayar air', 100000, '2023-07-25 17:23:16', 3);
 
 -- --------------------------------------------------------
 
@@ -175,8 +182,11 @@ CREATE TABLE `pesanan` (
 
 INSERT INTO `pesanan` (`id_pesanan`, `uang_pelanggan`, `uang_kembalian`, `total_bayar`, `waktu`, `waktu_update`, `id_label`) VALUES
 (120, 8000, 2000, 6000, '2023-07-05 07:48:35', NULL, 2),
-(121, 50000, 30000, 20000, '2023-07-01 07:49:19', '2023-07-03 07:49:47', 3),
-(123, 100000, 51000, 49000, '2023-07-19 14:45:52', '2023-07-19 14:53:26', 4);
+(121, 50000, 30000, 20000, '2023-07-05 07:49:19', '2023-07-03 07:49:47', 3),
+(123, 100000, 51000, 49000, '2023-06-19 14:45:52', '2023-07-19 14:53:26', 4),
+(125, 50000, 30000, 20000, '2023-07-25 22:51:21', NULL, 2),
+(130, 200000, 180000, 20000, '2023-07-26 12:42:46', NULL, 3),
+(131, 50000, 7000, 43000, '2023-07-26 14:37:15', '2023-07-26 14:37:57', 2);
 
 --
 -- Indexes for dumped tables
@@ -194,7 +204,8 @@ ALTER TABLE `detail_pesanan`
 -- Indexes for table `karyawan`
 --
 ALTER TABLE `karyawan`
-  ADD PRIMARY KEY (`id_karyawan`);
+  ADD PRIMARY KEY (`id_karyawan`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `label_pengeluaran`
@@ -228,7 +239,7 @@ ALTER TABLE `pengeluaran`
 --
 ALTER TABLE `pesanan`
   ADD PRIMARY KEY (`id_pesanan`),
-  ADD KEY `FK_pesanan_label_pesanan` (`id_label`);
+  ADD KEY `FK_pesanan_label_pesanan` (`id_label`) USING BTREE;
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -238,19 +249,19 @@ ALTER TABLE `pesanan`
 -- AUTO_INCREMENT for table `detail_pesanan`
 --
 ALTER TABLE `detail_pesanan`
-  MODIFY `id_detail_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=228;
+  MODIFY `id_detail_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=234;
 
 --
 -- AUTO_INCREMENT for table `karyawan`
 --
 ALTER TABLE `karyawan`
-  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `label_pengeluaran`
 --
 ALTER TABLE `label_pengeluaran`
-  MODIFY `id_label` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_label` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `label_pesanan`
@@ -268,13 +279,13 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT for table `pengeluaran`
 --
 ALTER TABLE `pengeluaran`
-  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pesanan`
 --
 ALTER TABLE `pesanan`
-  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- Constraints for dumped tables
@@ -297,7 +308,7 @@ ALTER TABLE `pengeluaran`
 -- Constraints for table `pesanan`
 --
 ALTER TABLE `pesanan`
-  ADD CONSTRAINT `FK_pesanan_label_pesanan` FOREIGN KEY (`id_label`) REFERENCES `label_pesanan` (`id_label`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_pesanan_label_pesanan` FOREIGN KEY (`id_label`) REFERENCES `label_pesanan` (`id_label`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
