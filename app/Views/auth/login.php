@@ -31,6 +31,7 @@
     <script defer src="../alpinejs/alpinejs@3.x.x_dist_cdn.min.js"></script>
 
     <style>
+      [x-cloak] { display: none !important; }
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -119,7 +120,7 @@
     </style>
 
   </head>
-  <body class="text-center" x-data>
+  <body class="text-center" x-data x-cloak>
     <main class="form-signin w-100 m-auto">
       <div>
         <img
@@ -132,14 +133,14 @@
           <label for="floatingInput">Email</label>
         </div>
         <div class="alert alert-danger mt-2 p-2" role="alert" x-show="$store.validasi.email != null">
-          Email Karyawan tidak terdaftar
+          <span x-text="$store.validasi.email"></span>
         </div>
         <div class="form-floating">
           <input type="password" class="form-control" id="floatingPassword" placeholder="masukkan password" x-model="$store.data.password" />
           <label for="floatingPassword">Password</label>
         </div>
         <div class="alert alert-danger mt-2 p-2" role="alert" x-show="$store.validasi.password != null">
-          Password tidak sesuai
+        <span x-text="$store.validasi.password"></span>
         </div>
 
           <template x-if="!$store.state.loading">
@@ -156,7 +157,7 @@
           <button class="w-100 btn btn-lg btn-primary mt-2" @click="handleReset">
             <span>Reset</span>
           </button>
-        <p class="mt-5 mb-3 text-muted">&copy; 2023</p>
+        <p class="mt-5 mb-3 text-muted">Created with <span>❤️</span> By SnowFall Team</p>
       </div>
     </main>
   </body>
