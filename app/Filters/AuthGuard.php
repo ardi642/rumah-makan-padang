@@ -15,7 +15,7 @@ class AuthGuard implements FilterInterface
     'LabelPesanan' => ['admin', 'karyawan'],
     'Pengeluaran' => ['admin'],
     'LabelPengeluaran' => ['admin'],
-    'Laporan' => ['admin']
+    'Laporan' => ['admin', 'karyawan']
   ];
 
   public function before(RequestInterface $request, $arguments = null)
