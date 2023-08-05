@@ -74,11 +74,21 @@
       },
       {
         data: "no_telepon",
-        name: 'no_telepon'
+        name: 'no_telepon',
+        render: function(data, type, row, meta) {
+          if (data == "")
+            return "-"
+          return data
+        }
       },
       {
         data: "alamat",
-        name: 'alamat'
+        name: 'alamat',
+        render: function(data, type, row, meta) {
+          if (data == "")
+            return "-"
+          return data
+        }
       },
       {
         data: null,
