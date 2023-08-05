@@ -9,10 +9,10 @@
   <div x-init="$watch('$store.state.status', setNotification)"></div>
   <h5 class="text-center mb-5">Form Edit Karyawan</h5>
   <div class="mb-3">
-    <label class="form-label">username</label>
-    <input type="text" class="form-control" name="username" placeholder="masukkan username" :value="$store.form.username" x-model="$store.form.username" @keyup="resetValidasi('username')">
-    <template x-if="$store.validasi.username != null">
-      <div class="alert alert-danger mt-2 p-1" x-text="$store.validasi.username">
+    <label class="form-label">email</label>
+    <input type="text" class="form-control" name="email" placeholder="masukkan email" :value="$store.form.email" x-model="$store.form.email" @keyup="resetValidasi('email')">
+    <template x-if="$store.validasi.email != null">
+      <div class="alert alert-danger mt-2 p-1" x-text="$store.validasi.email">
       </div>
     </template>
   </div>
@@ -21,14 +21,6 @@
     <input type="text" class="form-control" name="nama_karyawan" placeholder="masukkan nama karyawan" :value="$store.form.nama_karyawan" x-model="$store.form.nama_karyawan" @keyup="resetValidasi('nama_karyawan')">
     <template x-if="$store.validasi.nama_karyawan != null">
       <div class="alert alert-danger mt-2 p-1" x-text="$store.validasi.nama_karyawan">
-      </div>
-    </template>
-  </div>
-  <div class="mb-3">
-    <label class="form-label">email (Optional)</label>
-    <input type="text" class="form-control" name="email" placeholder="masukkan email" :value="$store.form.email" x-model="$store.form.email" @keyup="resetValidasi('email')">
-    <template x-if="$store.validasi.email != null">
-      <div class="alert alert-danger mt-2 p-1" x-text="$store.validasi.email">
       </div>
     </template>
   </div>

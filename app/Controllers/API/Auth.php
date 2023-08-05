@@ -13,7 +13,7 @@ class Auth extends BaseController
     {
         $this->validation = \Config\Services::validation();
         $this->rulesLogin = [
-            'email' => 'required',
+            'email' => 'required|valid_email',
             'password' => 'required|min_length[8]',
         ];
     }
@@ -22,16 +22,27 @@ class Auth extends BaseController
         $data = $this->request->getJSON(true);
         $db      = \Config\Database::connect();
         $builder = $db->table('karyawan');
-        $result = $builder
+        $dataKaryawan = $builder
             ->where('email', $data['email'])
-            ->where('password', $data['password'])
             ->get()
             ->getRowArray();
 
-        $res = [
-            'data' => $result,
-        ];
+        if ($dataKaryawan == null) {
+            $validasi['email'] = 'email karyawan tidak terdaftar';
+        }
 
-        return $this->response->setJSON($res);
+        else if (!password_verify($data['password'], $dataKaryawan['password'])) {
+            $validasi['password'] = 'password yang dimasukkan tidak sesuai';
+        }
+
+        if (count($validasi) > 0) {
+            return $this->response
+                ->setStatusCode(400)
+                ->setJSON([
+                'validasi' => $validasi
+            ]);
+        }
+
+        return $this->response->setJSON(true);
     }
 }

@@ -13,7 +13,7 @@ class Karyawan extends BaseController
   {
     $this->validation = \Config\Services::validation();
     $this->rulesKaryawan = [
-      'username' => 'required|is_unique[karyawan.username]|min_length[4]',
+      'email' => "required|valid_email|is_unique[karyawan.email]",
       'password' => 'required|min_length[8]',
       'konfirmasi_password' => 'required|min_length[8]',
       'nama_karyawan' => 'required'
@@ -30,7 +30,7 @@ class Karyawan extends BaseController
     $start = $params['start'];
     $length = $params['length'];
     $koloms = [
-      'username', 'email', 'nama_karyawan',
+      'email', 'nama_karyawan',
       'level', 'no_telepon', 'alamat'
     ];
     $karyawanModel = model(App\Models\KaryawanModel::class);
@@ -90,6 +90,7 @@ class Karyawan extends BaseController
         ->setJSON($resData);
     }
 
+    $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT, ['cost' => 12]);
     $query = $karyawanModel->insert($data, false);
     if (!$query) {
       $resData = [
@@ -129,16 +130,12 @@ class Karyawan extends BaseController
     // die();
     unset($this->rulesKaryawan['password']);
     $this->validation->setRules($this->rulesKaryawan);
+    $this->validation->setRule('email', 'Email', "required|valid_email|is_unique[karyawan.email,id_karyawan,$idKaryawan]");
     $this->validation->setRule('password_lama', 'Password Lama', 'required|min_length[8]');
     $this->validation->setRule('password_baru', 'Password baru', 'required|min_length[8]');
     $this->validation->run($data);
     $errorValidasi = $this->validation->getErrors();
-
     $dataKaryawan = $karyawanModel->where('id_karyawan', $idKaryawan)->first();
-
-    if ($dataKaryawan != null and $dataKaryawan['username'] == $data['username']) {
-      unset($errorValidasi['username']);
-    }
 
     if (!isset($data['password_lama']) or $data['password_lama'] == "") {
       unset(
@@ -146,8 +143,9 @@ class Karyawan extends BaseController
         $errorValidasi['password_baru'],
         $errorValidasi['konfirmasi_password']
       );
-    } else {
-      if ($dataKaryawan['password'] != $data['password_lama'])
+    } 
+    else {
+      if (!password_verify($data['password_lama'], $dataKaryawan['password']))
         $errorValidasi['password_lama'] = 'password tidak sesuai';
 
       if ($data['password_lama'] == $data['password_baru'])
@@ -172,7 +170,7 @@ class Karyawan extends BaseController
     }
 
     if (isset($data['password_baru']))
-      $data['password'] = $data['password_baru'];
+      $data['password'] = password_hash($data['password_baru'], PASSWORD_DEFAULT, ['cost' => 12]);
 
     $query = $karyawanModel->update($idKaryawan, $data);
     if (!$query) {
