@@ -39,6 +39,13 @@
       <div class="alert alert-danger mt-2 p-1" x-text="$store.validasi.konfirmasi_password">
       </div>
     </template>
+    <div class="mb-3 mt-2">
+      <label class="form-label">level</label>
+      <select type="text" class="form-control" name="level" placeholder="masukkan nama karyawan" :value="$store.form.level" x-model="$store.form.level">
+        <option value="karyawan">karyawan</option>
+        <option value="admin">admin</option>
+      </select>
+    </div>
     <div class="mb-3">
       <label class="form-label">no. telepon (Optional)</label>
       <input type="text" class="form-control" name="no_telepon" placeholder="masukkan no. telepon" :value="$store.form.no_telepon" x-model="$store.form.no_telepon" @keyup="resetValidasi('no_telepon')">

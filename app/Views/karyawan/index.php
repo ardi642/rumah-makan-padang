@@ -69,6 +69,10 @@
         name: 'email'
       },
       {
+        data: "level",
+        name: 'level'
+      },
+      {
         data: "no_telepon",
         name: 'no_telepon'
       },
