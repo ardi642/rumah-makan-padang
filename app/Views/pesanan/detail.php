@@ -102,6 +102,13 @@
     try {
       const response = await axios.get(`/api/dataPesanan/${idPesanan}`);
       const pesananMasuk = response.data.pesananMasuk;
+      if (pesananMasuk.waktu != null) {
+        pesananMasuk.waktu = dayjs(pesananMasuk.waktu).format("DD MMMM YYYY - HH:mm");
+      }
+      if (pesananMasuk.waktu_update != null) {
+        pesananMasuk.waktu_update = dayjs(pesananMasuk.waktu_update).format("DD MMMM YYYY - HH:mm");
+      }
+        
       await Object.assign(storePesananMasuk, pesananMasuk);
     } catch (error) {
       const statusCode = error.response?.status;

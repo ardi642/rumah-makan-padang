@@ -2,17 +2,19 @@
 
 namespace App\Controllers;
 
-class Home extends BaseController
+class Laporan extends BaseController
 {
+    
     public function index()
     {
         $data['menus'] = config('App')->menus;
-        $data['menuAktif'] = 'home';
-        return view('admin_home', $data);
+        $data['menuAktif'] = 'laporan';
+        return view('laporan/index', $data);
     }
 
     public function coba()
     {
+        
         echo "Hello World";
     }
 }

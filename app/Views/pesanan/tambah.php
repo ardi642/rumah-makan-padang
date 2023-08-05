@@ -489,6 +489,9 @@
         label: storeForm.label,
         ...storePembayaran,
       });
+
+      storePesananMasuk.waktu = dayjs(storePesananMasuk.waktu).format("DD MMMM YYYY - HH:mm");
+
       setTimeout(function() {
         document.getElementsByClassName('table')[0]
           .scrollIntoView({
