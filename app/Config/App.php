@@ -50,6 +50,10 @@ class App extends BaseConfig
         'laporan' => [
             'url' => '/laporan',
             'label' => 'Master Laporan'
+        ],
+        'logout' => [
+            'url' => '/logout',
+            'label' => 'Logout'
         ]
     ];
     /**

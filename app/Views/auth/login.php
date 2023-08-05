@@ -118,8 +118,6 @@
       }
     </style>
 
-    <!-- Custom styles for this template -->
-    <link href="signin.css" rel="stylesheet" />
   </head>
   <body class="text-center" x-data>
     <main class="form-signin w-100 m-auto">
@@ -130,14 +128,14 @@
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div class="form-floating">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
+          <input type="email" class="form-control" id="floatingInput" placeholder="masukkan email" x-model="$store.data.email" />
           <label for="floatingInput">Email</label>
         </div>
         <div class="alert alert-danger mt-2 p-2" role="alert" x-show="$store.validasi.email != null">
           Email Karyawan tidak terdaftar
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password" />
+          <input type="password" class="form-control" id="floatingPassword" placeholder="masukkan password" x-model="$store.data.password" />
           <label for="floatingPassword">Password</label>
         </div>
         <div class="alert alert-danger mt-2 p-2" role="alert" x-show="$store.validasi.password != null">
@@ -145,7 +143,7 @@
         </div>
 
           <template x-if="!$store.state.loading">
-          <button class="w-100 btn btn-lg btn-primary" @click="">
+          <button class="w-100 btn btn-lg btn-primary" @click="handleLogin">
             <span>Masuk</span>
           </button>
           </template>
@@ -155,12 +153,21 @@
             proses...
           </button>
           </template>
+          <button class="w-100 btn btn-lg btn-primary mt-2" @click="handleReset">
+            <span>Reset</span>
+          </button>
         <p class="mt-5 mb-3 text-muted">&copy; 2023</p>
       </div>
     </main>
   </body>
   <script>
     document.addEventListener("alpine:init", () => {
+
+      Alpine.store("data", {
+        email: '',
+        password: ''
+      })
+
       Alpine.store("validasi", {
         email: null,
         password: null,
@@ -171,15 +178,34 @@
       })
     });
 
-    try {
+    async function handleLogin() {
       const storeState = Alpine.store('state')
-      storeState.loading = true
+      const storeValidasi = Alpine.store('validasi')
+      const data = Alpine.store('data');
+      try {
+        storeState.loading = true
+        const response = await axios.post('/api/login', data);
+        location.href = "/";
+      }
+      catch (error) {
+        if (error.response.status == 400) {
+          const validasi = error.response.data.validasi
+          Alpine.store('validasi', validasi)
+        }
+      }
+      finally {
+        storeState.loading = false
+      }
     }
-    catch (error) {
 
-    }
-    finally {
-      storeState.loading = false
+    function handleReset() {
+      const storeValidasi = Alpine.store('validasi');
+      const storeData = Alpine.store('data');
+      storeValidasi.email = null;
+      storeValidasi.password = null;
+
+      storeData.email = '';
+      storeData.password = '';
     }
 
   </script>

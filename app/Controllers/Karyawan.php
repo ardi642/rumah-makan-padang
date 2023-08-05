@@ -9,7 +9,7 @@ class Karyawan extends BaseController
     {
         $data['menus'] = config('App')->menus;
         $data['menuAktif'] = 'karyawan';
-        $data['kolomTabel'] = ['no', 'nama', 'email', 'no_telepon', 'alamat', 'aksi'];
+        $data['kolomTabel'] = ['no', 'nama', 'email', 'level', 'no_telepon', 'alamat', 'aksi'];
         return view('/karyawan/index', $data);
     }
 
