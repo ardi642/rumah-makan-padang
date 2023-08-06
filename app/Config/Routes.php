@@ -66,6 +66,8 @@ $routes->put('api/pengeluaran/(:any)', 'API\pengeluaran::update/$1');
 
 $routes->post('api/login', 'API\Auth::handleLogin');
 $routes->get('api/laporan/selectDatatable', 'API\Laporan::selectDatatable');
+
+$routes->get('api/home/transaction', 'API\Home::getTransaction');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
