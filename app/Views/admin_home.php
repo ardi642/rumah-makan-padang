@@ -19,9 +19,10 @@
   }
 </style>
         <div class="container">
-          <div class="pb-2 mt-3 mb-3">
-            <p>Selamat Datang</p>
-            <h3>Nama Kamu</h3>
+          <div class="pt-2 mt-4 mb-0">
+            <!-- <p>Selamat Datang <strong></strong></p> -->
+            <!-- <h3><?= session()->get('nama_karyawan') ?></h3> -->
+            <p>Selamat Datang <strong><?= session()->get('nama_karyawan') ?></strong> <span class="text-muted">(<?= session()->get('level') ?>)</span> </p>
           </div>
 
           <!-- Menampilkan Grafik -->
@@ -41,7 +42,7 @@
             </div>
             <div class="card col-12 col-lg-4 shadow bg-danger text-white ">
               <div class="card-body">
-                <h5 class="card-title">Penegluaran</h5>
+                <h5 class="card-title">Pengeluaran</h5>
                 <h1 class="">RP 1,500,000 </h1>
               </div>
             </div>

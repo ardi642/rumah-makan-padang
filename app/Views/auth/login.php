@@ -124,7 +124,7 @@
     <main class="form-signin w-100 m-auto">
       <div>
         <img
-          class="mb-4" src="../logo/bootstrap-logo.svg" alt="" width="72" height="57"
+          class="mb-4" src="../logo/rmnarendra-logo.png" alt="" width="200"
         />
         <h1 class="h3 mb-3 fw-normal">Silahkan Login</h1>
 

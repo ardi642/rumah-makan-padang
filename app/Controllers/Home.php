@@ -11,8 +11,4 @@ class Home extends BaseController
         return view('admin_home', $data);
     }
 
-    public function coba()
-    {
-        echo "Hello World";
-    }
 }
